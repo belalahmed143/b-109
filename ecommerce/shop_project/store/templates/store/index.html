@@ -1,0 +1,639 @@
+{% extends "store/base.html" %}
+
+{% block content %}
+
+<main class="main">
+    <div class="page-content">
+        <div class="intro-section bg-image" style="background-image: url(assets/images/demos/demo-28/background.jpg);">
+            <div class="container">
+                <div class="owl-carousel inner-carousel owl-simple rows cols-1" data-toggle="owl" data-owl-options='{"nav": false, "dots": true, "loop": true}'>
+                    
+                    {% for c in banners %}
+                    <div class="intro-slide">
+                        <img src="{{ c.image.url }}" alt="">
+                    </div>
+                    {% endfor %}
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="banner-group-1 mt-1 mb-1">
+            <div class="container">
+                <div class="owl-carousel owl-simple rows cols-1 cols-sm-2 cols-lg-3" data-toggle="owl" data-owl-options='{
+                    "nav": false, 
+                    "dots": true,
+                    "margin": 10,
+                    "loop": false,
+                    "responsive": {
+                        "0": {
+                            "items":1
+                        },
+                        "576": {
+                            "items":2
+                        },
+                        "992": {
+                            "items":3
+                        }
+                    }
+                }'>
+                    <div class="banner mb-0">
+                        <a href="#">
+                            <img src="assets/images/demos/demo-28/banners/banner-1.jpg" width="460" height="210">
+                        </a>
+                        <div class="banner-content p-3">
+                            <h5 class="banner-subtitle font-weight-normal text-light mb-1">Fresh Fruit</h5>
+                            <h3 class="banner-title font-weight-bold">Organic Fresh Fruits<br>Get 25% Off</h3>
+                            <a href="#" class="banner-link text-decoration-none">Shop Now<i class="icon-angle-right"></i></a>
+                        </div>
+                    </div>
+                    <div class="banner mb-0">
+                        <a href="#">
+                            <img src="assets/images/demos/demo-28/banners/banner-2.jpg" width="460" height="210">
+                        </a>
+                        <div class="banner-content p-3">
+                            <h5 class="banner-subtitle font-weight-normal text-light mb-1">Our Standards</h5>
+                            <h3 class="banner-title font-weight-bold">Super Food Bundle<br>From $45.99</h3>
+                            <a href="#" class="banner-link text-decoration-none">Shop Now<i class="icon-angle-right"></i></a>
+                        </div>
+                    </div>
+                    <div class="banner mb-0">
+                        <a href="#">
+                            <img src="assets/images/demos/demo-28/banners/banner-3.jpg" width="460" height="210">
+                        </a>
+                        <div class="banner-content p-3">
+                            <h5 class="banner-subtitle font-weight-normal text-light mb-1">Diet Products</h5>
+                            <h3 class="banner-title font-weight-bold">Save Now<br>Detox &amp; Diuretics</h3>
+                            <a href="#" class="banner-link text-decoration-none">Shop Now<i class="icon-angle-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="container">
+            <hr class="m-0">
+            <h3>Categories</h3>
+            <div class="cat-section mt-1 mb-3">
+                <div class="row">
+                    
+                    {% for c in categories %}
+                    <div class="col-6 col-sm-4 col-md-3 col-lg-2 col-xl-8col">
+                        <div class="cat bg-white pt-1 mb-2">
+                            <div class="cat-image d-flex justify-content-center align-items-center">
+                                <a href="#"><img src="{{ c.image.url }}" width="137" height="137"></a>
+                            </div>
+                            <div class="cat-content text-center">
+                                <a href="#" class="cat-title">{{ c.name }}</a>
+                                <!-- <h4 class="cat-count letter-spacing-normal d-block font-weight-light">1 Product</h4> -->
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}                   
+                </div>
+            </div>
+        </div>
+
+        <div class="flash-section bg-lighter">
+            <div class="container">
+                <div class="heading d-flex flex-column flex-md-row">
+                    <h2 class="title align-self-center letter-spacing-normal text-center text-md-left">All Products</h2>
+                </div>
+                <div class="flash-content mt-2 py-2 pb-7">
+                    <div class="owl-carousel carousel-equal-height owl-simple rows cols-2 cols-md-3 cols-lg-4 cols-xl-6" data-toggle="owl" data-owl-options='{
+                        "nav": true,
+                        "dots": true,
+                        "loop": false,
+                        "margin": 0,
+                        "responsive": {
+                            "0": {
+                                "items":2
+                            },
+                            "768": {
+                                "items":3
+                            },
+                            "992": {
+                                "items":4
+                            },
+                            "1200": {
+                                "items":6
+                            }
+                        }
+                    }'>
+                    
+                    {% for c in products %}
+                    <div class="product mb-0 rounded-0 w-100">
+                        <figure class="product-media bg-white ">
+                            <a href="{% url 'product-detail' c.pk %}"><img src="{{ c.image.url }}" width="192" height="192"></a>
+                            <a href="#" class="btn-product-zoom btn-quickview" data-product-id="260" title="Quick view"><span>Quick view</span></a>
+                        </figure>
+                        <div class="product-body position-static bg-transparent">
+                            <div class="product-cat overflow-hidden my-2 mt-0 font-weight-normal">
+                                <a href="#">{{ c.category.name }}</a>
+                            </div>
+                            <a href="{% url 'product-detail' c.pk %}"><h3 class="product-title overflow-hidden letter-spacing-normal">{{ c.name }}</h3></a>
+                            {% if c.discount_price %}
+                            <div class="product-price font-weight-bold align-items-center d-flex mb-0">
+                                <h4 class="new-price font-weight-bold mb-0">${{ c.discount_price }}</h4>
+                                <h4 class="old-price font-weight-normal mb-0">${{ c.price }}</h4>
+                            </div>
+                            {% else %}
+                            <div class="product-price font-weight-bold align-items-center d-flex mb-0">${{ c.price }}</div>
+                              
+                            {% endif %}
+                            <div class="product-footer bg-white rounded-0 d-block position-absolute">
+                                <div class="product-action d-flex justify-content-center flex-column align-items-center position-relative">
+                                    <a href="{% url 'product-detail' c.pk %}" class="btn btn-product font-weight-normal text-uppercase text-truncate btn-cart btn-outline-primary-2 btn-outline-primary-2"><span>View</span></a>
+                                    <a href="#" class="wishlist-link-product px-3 ml-0 font-weight-normal mt-1"><i class="icon-heart-o"></i><span>Add to wishlist</span></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="brand-section mt-7 mb-6">
+            <div class="container py-2 pt-0">
+                <div class="owl-carousel owl-simple rows cols-2 cols-xs-3 cols-md-4 cols-lg-6" data-toggle="owl" data-owl-options='{
+                        "nav": false, "loop": false, "dots": false, "margin":0,"responsive": {
+                        "0": {
+                            "items":2
+                        },
+                        "480": {
+                            "items":3
+                        },
+                        "768": {
+                            "items":4
+                        },
+                        "992": {
+                            "items":6
+                        }
+                    }
+                }'>
+                    <a href="#" class="brand"><img src="assets/images/demos/demo-28/logos/1.png"></a>
+                    <a href="#" class="brand"><img src="assets/images/demos/demo-28/logos/2.png"></a>
+                    <a href="#" class="brand"><img src="assets/images/demos/demo-28/logos/3.png"></a>
+                    <a href="#" class="brand"><img src="assets/images/demos/demo-28/logos/4.png"></a>
+                    <a href="#" class="brand"><img src="assets/images/demos/demo-28/logos/5.png"></a>
+                    <a href="#" class="brand"><img src="assets/images/demos/demo-28/logos/6.png"></a>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="newsletter-section bg-image d-flex align-items-center justify-content-center mb-1 pt-2 pb-2 px-3" style="background-image: url(assets/images/demos/demo-28/banners/4.jpg);">
+                <div class="banner-content position-relative pt-0">
+                    <h3 class="newsletter-title font-weight-bold text-center mb-1">New Customer Discount</h3>
+                    <h2 class="newsletter-text font-weight-bold text-center my-4 mt-0"><span class="text-primary">20% Off </span>Your First Order at Molla</h2>
+                    <p class="text-light font-weight-normal text-center mb-2">New customers: <b class="text-dark">Save 20%</b> when you sign up for exclusive emails, recipes, expert tips &amp; more...</p>
+                    <form action="#">
+                        <div class="email-get d-flex justify-content-center flex-column flex-sm-row align-items-center align-items-sm-stretch">
+                            <input type="email" name="" class="form-control text-light mb-1" placeholder="Enter your Email Address">
+                            <div class="input-group-append">
+                                <button class="btn btn-primary mb-1 letter-spacing-normal text-uppercase" type="submit" id="newsletter-btn">
+                                    <span>Subscribe</span>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="banner-group-2 mb-4">
+            <div class="container">
+                <div class="row row-sm">
+                    <div class="col-md-6">
+                        <div class="banner bg-image d-flex align-items-center" style="background-image: url(assets/images/demos/demo-28/banners/5.jpg);">
+                            <div class="banner-content">
+                                <h4 class="banner-subtitle mb-1 mt-0 text-light font-weight-normal">Fresh Fruit</h4>
+                                <h3 class="banner-title font-weight-bold">Organic Fresh Drinks<br>Get <span class="text-primary">25% Off</span> on Your Order</h3>
+                                <a href="#" class="banner-link text-decoration-none">Shop Now<i class="icon-angle-right"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="banner bg-image d-flex align-items-center" style="background-image: url(assets/images/demos/demo-28/banners/6.jpg);">
+                            <div class="banner-content">
+                                <h4 class="banner-subtitle mb-1 mt-0 text-light font-weight-normal">Fresh Fruit</h4>
+                                <h3 class="banner-title font-weight-bold">All Natural Large Box<br>From <span class="text-primary">$29.99</span></h3>
+                                <a href="#" class="banner-link text-decoration-none">Shop Now<i class="icon-angle-right"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="recommend-section py-2 pb-5 border-0">
+            <div class="container">
+                <div class="heading">
+                    <h2 class="title align-self-center letter-spacing-normal text-center text-md-left">Recommended For You</h2>
+                </div>
+                <div class="products owl-carousel owl-simple owl-nav-inside carousel-equal-height rows cols-2 cols-md-3 cols-lg-4 cols-xl-6" data-toggle="owl" data-owl-options='{
+                        "nav": true,
+                        "dots": true,
+                        "loop": true,
+                        "margin": 0,
+                        "responsive": {
+                            "0": {
+                                "items":2
+                            },
+                            "768": {
+                                "items":3
+                            },
+                            "992": {
+                                "items":4
+                            },
+                            "1200": {
+                                "items":6
+                            }
+                        }
+                    }'>
+                    <div class="product mb-0 rounded-0 w-100">
+                        <div class="product-change">
+                            <figure class="product-media bg-white ">
+                                <a href="#"><img src="assets/images/demos/demo-28/flash/7.jpg" width="192" height="192"></a>
+                                <a href="#" class="btn-product-zoom btn-quickview" data-product-id="260" title="Quick view"><span>Quick view</span></a>
+                                <div class="deal-container inline-type letter-spacing-normal d-block mr-0">
+                                    <div class="deal-countdown" data-until="+10h"></div>
+                                </div>
+                            </figure>
+                            <div class="product-body position-static bg-transparent">
+                                <div class="product-cat overflow-hidden my-2 mt-0 font-weight-normal">
+                                    <a href="#">Bakery</a>
+                                </div>
+                                <h3 class="product-title overflow-hidden letter-spacing-normal">Rye Bread (800g)</h3>
+                                <div class="product-price font-weight-bold align-items-center d-flex mb-0">$3.99</div>
+                            </div>
+                            <div class="product-footer bg-white rounded-0 d-block position-absolute">
+                                <div class="ratings-container text-truncate">
+                                    <div class="ratings">
+                                        <div class="ratings-val" style="width: 40%;"></div>
+                                        <a href="product.html" class="ratings-text font-weight-normal">(5 reviews)</a>
+                                    </div>
+                                </div>
+                                <div class="product-action d-flex justify-content-center flex-column align-items-center position-relative">
+                                    <a href="#" class="btn btn-product font-weight-normal text-uppercase text-truncate btn-cart btn-outline-primary-2 btn-outline-primary-2"><span>Add To Cart</span></a>
+                                    <a href="#" class="wishlist-link-product px-3 ml-0 font-weight-normal mt-1"><i class="icon-heart-o"></i><span>Add to wishlist</span></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="product mb-0 rounded-0 w-100">
+                        <div class="product-change">
+                            <figure class="product-media bg-white ">
+                                <a href="#"><img src="assets/images/demos/demo-28/flash/8.jpg" width="192" height="192"></a>
+                                <a href="#" class="btn-product-zoom btn-quickview" data-product-id="260" title="Quick view"><span>Quick view</span></a>
+                                <div class="product-label label-top">Top</div>
+                            </figure>
+                            <div class="product-body position-static bg-transparent">
+                                <div class="product-cat overflow-hidden my-2 mt-0 font-weight-normal">
+                                    <a href="#">Seafood</a>
+                                </div>
+                                <h3 class="product-title overflow-hidden letter-spacing-normal">Shrimp - Jumbo (5 lb)</h3>
+                                <div class="product-price font-weight-bold align-items-center d-flex mb-0">$38.00</div>
+                            </div>
+                            <div class="product-footer bg-white rounded-0 d-block position-absolute">
+                                <div class="ratings-container text-truncate">
+                                    <div class="ratings">
+                                        <div class="ratings-val" style="width: 40%;"></div>
+                                        <a href="product.html" class="ratings-text font-weight-normal">(10 reviews)</a>
+                                    </div>
+                                </div>
+                                <div class="product-action d-flex justify-content-center flex-column align-items-center position-relative">
+                                    <a href="#" class="btn btn-product font-weight-normal text-uppercase text-truncate btn-cart btn-outline-primary-2 btn-outline-primary-2"><span>Add To Cart</span></a>
+                                    <a href="#" class="wishlist-link-product px-3 ml-0 font-weight-normal mt-1"><i class="icon-heart-o"></i><span>Add to wishlist</span></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="product mb-0 rounded-0 w-100">
+                        <div class="product-change">
+                            <figure class="product-media bg-white ">
+                                <a href="#"><img src="assets/images/demos/demo-28/flash/9.jpg" width="192" height="192"></a>
+                                <a href="#" class="btn-product-zoom btn-quickview" data-product-id="260" title="Quick view"><span>Quick view</span></a>
+                                <div class="product-label label-sale">Save: 30%</div>
+                            </figure>
+                            <div class="product-body position-static bg-transparent">
+                                <div class="product-cat overflow-hidden my-2 mt-0 font-weight-normal">
+                                    <a href="#">Seafood</a>
+                                </div>
+                                <h3 class="product-title overflow-hidden letter-spacing-normal">Fresh Mussel (500g)</h3>
+                                <div class="product-price font-weight-bold align-items-center d-flex mb-0">
+                                    <h4 class="new-price font-weight-bold mb-0">$12.80</h4>
+                                    <h4 class="old-price font-weight-normal mb-0">$22.90</h4>
+                                </div>
+                            </div>
+                            <div class="product-footer bg-white rounded-0 d-block position-absolute">
+                                <div class="ratings-container text-truncate">
+                                    <div class="ratings">
+                                        <div class="ratings-val" style="width: 20%;"></div>
+                                        <a href="product.html" class="ratings-text font-weight-normal">(2 reviews)</a>
+                                    </div>
+                                </div>
+                                <div class="product-action d-flex justify-content-center flex-column align-items-center position-relative">
+                                    <a href="#" class="btn btn-product font-weight-normal text-uppercase text-truncate btn-cart btn-outline-primary-2 btn-outline-primary-2"><span>Add To Cart</span></a>
+                                    <a href="#" class="wishlist-link-product px-3 ml-0 font-weight-normal mt-1"><i class="icon-heart-o"></i><span>Add to wishlist</span></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="product mb-0 rounded-0 w-100">
+                        <div class="product-change">
+                            <figure class="product-media bg-white ">
+                                <a href="#"><img src="assets/images/demos/demo-28/flash/10.jpg" width="192" height="192"></a>
+                                <a href="#" class="btn-product-zoom btn-quickview" data-product-id="260" title="Quick view"><span>Quick view</span></a>
+                            </figure>
+                            <div class="product-body position-static bg-transparent">
+                                <div class="product-cat overflow-hidden my-2 mt-0 font-weight-normal">
+                                    <a href="#">Drinks</a>
+                                </div>
+                                <h3 class="product-title overflow-hidden letter-spacing-normal">Organic Pure Juice Fresh Pressed Orange - 32 fl oz</h3>
+                                <div class="product-price font-weight-bold align-items-center d-flex mb-0">$4.89</div>
+                            </div>
+                            <div class="product-footer bg-white rounded-0 d-block position-absolute">
+                                <div class="ratings-container text-truncate">
+                                    <div class="ratings">
+                                        <div class="ratings-val" style="width: 20%;"></div>
+                                        <a href="product.html" class="ratings-text font-weight-normal">(2 reviews)</a>
+                                    </div>
+                                </div>
+                                <div class="product-action d-flex justify-content-center flex-column align-items-center position-relative">
+                                    <a href="#" class="btn btn-product font-weight-normal text-uppercase text-truncate btn-cart btn-outline-primary-2 btn-outline-primary-2"><span>Add To Cart</span></a>
+                                    <a href="#" class="wishlist-link-product px-3 ml-0 font-weight-normal mt-1"><i class="icon-heart-o"></i><span>Add to wishlist</span></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="product mb-0 rounded-0 w-100">
+                        <div class="product-change">
+                            <figure class="product-media bg-white ">
+                                <a href="#"><img src="assets/images/demos/demo-28/flash/11.jpg" width="192" height="192"></a>
+                                <a href="#" class="btn-product-zoom btn-quickview" data-product-id="260" title="Quick view"><span>Quick view</span></a>
+                                <div class="product-label label-sale">Save: 30%</div>
+                            </figure>
+                            <div class="product-body position-static bg-transparent">
+                                <div class="product-cat overflow-hidden my-2 mt-0 font-weight-normal">
+                                    <a href="#">Vegetables</a>
+                                </div>
+                                <h3 class="product-title overflow-hidden letter-spacing-normal">Healthy Fried Soya Stick Chips (100g)</h3>
+                                <div class="product-price font-weight-bold align-items-center d-flex mb-0">
+                                    <h4 class="new-price font-weight-bold mb-0">$2.59</h4>
+                                    <h4 class="old-price font-weight-normal mb-0">$10.90</h4>
+                                </div>
+                            </div>
+                            <div class="product-footer bg-white rounded-0 d-block position-absolute">
+                                <div class="ratings-container text-truncate">
+                                    <div class="ratings">
+                                        <div class="ratings-val" style="width: 20%;"></div>
+                                        <a href="product.html" class="ratings-text font-weight-normal">(2 reviews)</a>
+                                    </div>
+                                </div>
+                                <div class="product-action d-flex justify-content-center flex-column align-items-center position-relative">
+                                    <a href="#" class="btn btn-product font-weight-normal text-uppercase text-truncate btn-cart btn-outline-primary-2 btn-outline-primary-2"><span>Add To Cart</span></a>
+                                    <a href="#" class="wishlist-link-product px-3 ml-0 font-weight-normal mt-1"><i class="icon-heart-o"></i><span>Add to wishlist</span></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="product mb-0 rounded-0 w-100">
+                        <div class="product-change">
+                            <figure class="product-media bg-white ">
+                                <a href="#"><img src="assets/images/demos/demo-28/flash/12.jpg" width="192" height="192"></a>
+                                <a href="#" class="btn-product-zoom btn-quickview" data-product-id="260" title="Quick view"><span>Quick view</span></a>
+                            </figure>
+                            <div class="product-body position-static bg-transparent">
+                                <div class="product-cat overflow-hidden my-2 mt-0 font-weight-normal">
+                                    <a href="#">Fruits</a>
+                                </div>
+                                <h3 class="product-title overflow-hidden letter-spacing-normal">Ripe apricot fruits (540g)</h3>
+                                <div class="product-price font-weight-bold align-items-center d-flex mb-0">$12.99</div>
+                            </div>
+                            <div class="product-footer bg-white rounded-0 d-block position-absolute">
+                                <div class="ratings-container text-truncate">
+                                    <div class="ratings">
+                                        <div class="ratings-val" style="width: 20%;"></div>
+                                        <a href="product.html" class="ratings-text font-weight-normal">(2 reviews)</a>
+                                    </div>
+                                </div>
+                                <div class="product-action d-flex justify-content-center flex-column align-items-center position-relative">
+                                    <a href="#" class="btn btn-product font-weight-normal text-uppercase text-truncate btn-cart btn-outline-primary-2 btn-outline-primary-2"><span>Add To Cart</span></a>
+                                    <a href="#" class="wishlist-link-product px-3 ml-0 font-weight-normal mt-1"><i class="icon-heart-o"></i><span>Add to wishlist</span></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="product mb-0 rounded-0 w-100">
+                        <div class="product-change">
+                            <figure class="product-media bg-white ">
+                                <a href="#"><img src="assets/images/demos/demo-28/flash/12.jpg" width="192" height="192"></a>
+                                <a href="#" class="btn-product-zoom btn-quickview" data-product-id="260" title="Quick view"><span>Quick view</span></a>
+                            </figure>
+                            <div class="product-body position-static bg-transparent">
+                                <div class="product-cat overflow-hidden my-2 mt-0 font-weight-normal">
+                                    <a href="#">Fruits</a>
+                                </div>
+                                <h3 class="product-title overflow-hidden letter-spacing-normal">Ripe apricot fruits (540g)</h3>
+                                <div class="product-price font-weight-bold align-items-center d-flex mb-0">$12.99</div>
+                            </div>
+                            <div class="product-footer bg-white rounded-0 d-block position-absolute">
+                                <div class="ratings-container text-truncate">
+                                    <div class="ratings">
+                                        <div class="ratings-val" style="width: 20%;"></div>
+                                        <a href="product.html" class="ratings-text font-weight-normal">(2 reviews)</a>
+                                    </div>
+                                </div>
+                                <div class="product-action d-flex justify-content-center flex-column align-items-center position-relative">
+                                    <a href="#" class="btn btn-product font-weight-normal text-uppercase text-truncate btn-cart btn-outline-primary-2 btn-outline-primary-2"><span>Add To Cart</span></a>
+                                    <a href="#" class="wishlist-link-product px-3 ml-0 font-weight-normal mt-1"><i class="icon-heart-o"></i><span>Add to wishlist</span></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div> 
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="service-section py-2 pb-0 mt-6">
+                <div class="owl-carousel carousel-simple" data-toggle="owl" data-owl-options='{
+                    "nav": false,
+                    "loop": false,
+                    "dots": false,
+                    "margin": 20,
+                    "responsive": {
+                        "576": {
+                            "items":2
+                        },
+                        "972": {
+                            "items":3
+                        }
+                    }}'>
+                        <div class="icon-box d-flex align-items-center align-items-md-start flex-column flex-md-row text-center text-md-left py-2 pt-0 mb-7">
+                            <figure class="m-0">
+                                <img src="assets/images/demos/demo-28/social-icons/icon-apple.jpg">
+                            </figure>
+                            <div class="icon-box-content">
+                                <h3 class="icon-title letter-spacing-normal mb-1">Always Fresh Products</h3>
+                                <p class="text-light font-weight-light">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec odio. Quisque volutpat mattis eros.</p>
+                            </div>
+                        </div>
+                        <div class="icon-box d-flex align-items-center align-items-md-start flex-column flex-md-row text-center text-md-left py-2 pt-0 mb-7">
+                            <figure class="m-0">
+                                <img src="assets/images/demos/demo-28/social-icons/icon-leaf.jpg">
+                            </figure>
+                            <div class="icon-box-content">
+                                <h3 class="icon-title letter-spacing-normal mb-1">Organic &amp; Gluten-Free</h3>
+                                <p class="text-light font-weight-light">Donec odio. Quisque volutpat mattis eros. Nullam malesuada erat ut turpis.</p>
+                            </div>
+                        </div>
+                        <div class="icon-box d-flex align-items-center align-items-md-start flex-column flex-md-row text-center text-md-left py-2 pt-0 mb-7">
+                            <figure class="m-0">
+                                <img src="assets/images/demos/demo-28/social-icons/icon-medal.jpg">
+                            </figure>
+                            <div class="icon-box-content">
+                                <h3 class="icon-title letter-spacing-normal mb-1">Premium Quality</h3>
+                                <p class="text-light font-weight-light">Quisque volutpat mattis eros. Nullam malesuada eratut turpis. Suspendisse urna nibh, viverra non, semper.</p>
+                            </div>
+                        </div>
+                </div>
+            </div>
+        </div>
+        <div class="bg-lighter blog-section pt-6 pb-5">
+            <div class="container">
+                <div class="heading py-2 pb-0">
+                    <h2 class="title align-self-center letter-spacing-normal text-center text-md-left">From Our Blog</h2>
+                </div>
+                <div class="owl-carousel owl-simple shadow-carousel rows cols-1 cols-sm-2 cols-lg-3 cols-xl-4" data-toggle="owl" data-owl-options='{
+                    "nav": false, 
+                    "dots": false,
+                    "items": 4,
+                    "margin": 20,
+                    "loop": false,
+                    "responsive": {
+                        "0": {
+                            "items":1
+                        },
+                        "576": {
+                            "items":2
+                        },
+                        "992": {
+                            "items":3
+                        },
+                        "1200": {
+                            "items":4
+                        }
+                    }
+                }'>  
+                    <article class="entry">
+                        <figure class="entry-media mb-0">
+                            <a href="single.html">
+                                <img src="assets/images/demos/demo-28/blog/1.jpg" alt="image desc" width="334" height="200">
+                            </a>
+                        </figure> 
+
+                        <div class="entry-body text-left">
+                            <div class="entry-meta">
+                                <a href="#">Jan 12, 2020</a>&nbsp;/&nbsp;<a href="#">0 Comments</a>
+                            </div> 
+
+                            <h3 class="entry-title text-dark">
+                                <a href="single.html">Aenean dignissim felis.</a>
+                            </h3> 
+
+                            <div class="entry-content">
+                                <p class="font-weight-light text-light">Morbi in sem quis dui placerat ornare. Pelle
+                                    ntesque odio nisi, euismod in, pharetra ultricies in, diam. Sed arcu. </p>
+                                <a href="single.html" class="read-more m-0 p-0">Read More</a>
+                            </div> 
+                        </div> 
+                    </article> 
+                
+                    <article class="entry">
+                        <figure class="entry-media mb-0">
+                            <a href="single.html">
+                                <img src="assets/images/demos/demo-28/blog/2.jpg" alt="image desc" width="334" height="200">
+                            </a>
+                        </figure> 
+
+                        <div class="entry-body text-left">
+                            <div class="entry-meta">
+                                <a href="#">Jan 12, 2020</a>&nbsp;/&nbsp;<a href="#">2 Comments</a>
+                            </div> 
+
+                            <h3 class="entry-title text-dark">
+                                <a href="single.html">Fusce pellentesque.</a>
+                            </h3> 
+
+                            <div class="entry-content">
+                                <p class="font-weight-light text-light">
+                                    Lorem ipsum dolor sit amet, consectetuer 
+                                    adipiscing elit. Phasellus hendrerit. Pellentesque aliquet nibh nec urna.
+                                </p>
+                                <a href="single.html" class="read-more m-0 p-0">Read More</a>
+                            </div> 
+                        </div> 
+                    </article> 
+
+                    <article class="entry">
+                        <figure class="entry-media mb-0">
+                            <a href="single.html">
+                                <img src="assets/images/demos/demo-28/blog/3.jpg" alt="image desc" width="334" height="200">
+                            </a>
+                        </figure> 
+
+                        <div class="entry-body text-left">
+                            <div class="entry-meta">
+                                <a href="#">Jan 12, 2020</a>&nbsp;/&nbsp;<a href="#">4 Comments</a>
+                            </div> 
+
+                            <h3 class="entry-title text-dark">
+                                <a href="single.html">Quisque a lectus.</a>
+                            </h3> 
+
+                            <div class="entry-content">
+                                <p class="font-weight-light text-light">
+                                    Phasellus hendrerit. Pellentesque aliqunibh  nec urna. In nisi neque, aliquet vel, dapibus id, mattis vel, nisi. Sed pretium ligula ...
+                                </p>
+                                <a href="single.html" class="read-more m-0 p-0">Read More</a>
+                            </div> 
+                        </div> 
+                    </article> 
+
+                    <article class="entry">
+                        <figure class="entry-media mb-0">
+                            <a href="single.html">
+                                <img src="assets/images/demos/demo-28/blog/4.jpg" alt="image desc" width="334" height="200">
+                            </a>
+                        </figure> 
+
+                        <div class="entry-body text-left">
+                            <div class="entry-meta">
+                                <a href="#">Jan 12, 2020</a>&nbsp;/&nbsp;<a href="#">0 Comments</a>
+                            </div> 
+
+                            <h3 class="entry-title text-dark">
+                                <a href="single.html">Morbi in sem quis duiplacerat.</a>
+                            </h3> 
+
+                            <div class="entry-content">
+                                <p class="font-weight-light text-light">
+                                    Sed egestas, ante et vulputate volutpat, eros pede semper est, vitae luctus metus libero eu augue. Morbi purus libero ...
+                                </p>
+                                <a href="single.html" class="read-more m-0 p-0">Read More</a>
+                            </div> 
+                        </div> 
+                    </article> 
+                </div>
+
+            </div>
+        </div>
+    </div>
+</main>
+
+{% endblock content %}
+
+
+

@@ -1,0 +1,34 @@
+{% extends "store/base.html" %}
+
+{% block content %}
+
+<main class="main" style='margin-top:150px'>
+    <div class="container my-5">
+        <div class="card col-md-8 mx-auto shadow p-3">
+            {% if messages %}
+            {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} text-center my-2" role="alert">
+                {{ message }}
+            </div>
+            {% endfor %}
+        {% endif %}
+            <div class="row">
+                <div class="col-5">
+                    <img src="{{ user.profile.image.url }}" alt="">
+                </div>
+                <div class="col-7 my-auto">
+                    <a class="btn btn-sm btn-warning" href="{% url 'profile-update' %}">Update</a>
+                    <a class="btn btn-sm btn-info" href="{% url 'password-change' %}">Password Change</a>
+                    <h1>{{ user.username }}</h1>
+                    <p>{{ user.email }}</p>
+                    <p>{{ user.first_name }}</p>
+                    <p>{{ user.last_name }}</p>
+                    <p>{{ user.profile.dobd }}</p>
+                    <p>{{ user.profile.phone }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+{% endblock content %}
