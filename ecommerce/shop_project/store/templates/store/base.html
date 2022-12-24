@@ -3,6 +3,7 @@
 
 <head>
     {% load static %}
+    {% load cart_count %}
 
 	<meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -170,7 +171,7 @@
                                 <a href="#" class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static">
                                     <div class="icon position-relative">
                                         <i class="icon-shopping-cart"></i>
-                                        <span class="cart-count">2</span>
+                                        <span class="cart-count">{{ request.user|cart_product_count }}</span>
                                     </div>
                                     <span class="cart-txt font-weight-normal">$0.00</span>
                                 </a>
@@ -626,6 +627,32 @@
             </div><!-- End .modal-content -->
         </div><!-- End .modal-dialog -->
     </div><!-- End .modal -->
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    {% if messages %}
+    <script>
+        {% for message in messages %}
+        const Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer)
+            toast.addEventListener('mouseleave', Swal.resumeTimer)
+        }
+        })
+
+        Toast.fire({
+        icon: '{{ message.tags }}',
+        title: '{{ message }}'
+        })
+        {% endfor %}
+    </script>
+    {% endif %}
 
     <script src="{% static 'store/assets/js/jquery.min.js' %}"></script>
     <script src="{% static 'store/assets/js/bootstrap.bundle.min.js' %}"></script>

@@ -1,6 +1,8 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404,redirect
 from .models import *
 from django.db.models import Q
+from django.contrib import messages
+from django.utils import timezone
 # Create your views here.
 
 def home(request):
@@ -34,6 +36,8 @@ def product_search(request):
     }
     return render(request, 'store/product-search.html',context)
 
+    
+
 from django.core.paginator import Paginator
 
 def category_filtering(request,pk):
@@ -62,3 +66,27 @@ def price_range_filter(request,pk):
         'price_range':price_range
     }
     return render(request, 'store/price-filter.html',context)
+
+
+def add_to_cart(request,pk):
+    product = get_object_or_404(Product,pk=pk)
+    cart_product, created = CartProduct.objects.get_or_create(product=product,user= request.user, ordered=False)
+    order_qs = Order.objects.filter(user= request.user, ordered=False)
+
+    if order_qs.exists():
+        order = order_qs[0]
+        if order.products.filter(product__pk=product.pk).exists():
+            cart_product.quantity += 1
+            cart_product.save()
+            messages.info(request, 'Quantity updated')
+            return redirect('product-detail',pk=product.pk)
+        else:
+            order.products.add(cart_product)
+            messages.info(request, 'This Product Add to cart')
+            return redirect('product-detail',pk=product.pk)
+    else:
+        ordered_date = timezone.now()
+        order = Order.objects.create(user=request.user,ordered=False,ordered_date=ordered_date)
+        order.products.add(cart_product)
+        messages.info(request, 'This Product Add to cart')
+        return redirect('product-detail',pk=product.pk)
