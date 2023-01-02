@@ -90,3 +90,67 @@ def add_to_cart(request,pk):
         order.products.add(cart_product)
         messages.info(request, 'This Product Add to cart')
         return redirect('product-detail',pk=product.pk)
+
+
+def cart_quantity_increment(request,pk):
+    product = get_object_or_404(Product,pk=pk)
+    cart_product, created = CartProduct.objects.get_or_create(product=product,user= request.user, ordered=False)
+    order_qs = Order.objects.filter(user= request.user, ordered=False)
+
+    if order_qs.exists():
+        order = order_qs[0]
+        if order.products.filter(product__pk=product.pk).exists():
+            cart_product.quantity += 1
+            cart_product.save()
+            messages.info(request, 'Quantity updated')
+            return redirect('cart-summary')
+        else:
+            return redirect('cart-summary')
+    else:
+        return redirect('cart-summary')
+
+
+def cart_quantity_decrement(request,pk):
+    product = get_object_or_404(Product,pk=pk)
+    order_qs = Order.objects.filter(user= request.user, ordered=False)
+
+    if order_qs.exists():
+        order = order_qs[0]
+        if order.products.filter(product__pk=product.pk).exists():
+            cart_product = CartProduct.objects.filter(product=product,user= request.user, ordered=False)[0]
+            if cart_product.quantity > 1:
+                cart_product.quantity -= 1
+                cart_product.save()
+                messages.info(request, 'Quantity updated')
+                return redirect('cart-summary')
+            else:
+                cart_product.delete()
+                messages.info(request, 'Delete from cart')
+                return redirect('cart-summary')
+        else:
+            return redirect('cart-summary')
+    else:
+        return redirect('cart-summary')
+
+
+def remove_from_cart(request,pk):
+    product = get_object_or_404(Product,pk=pk)
+    order_qs = Order.objects.filter(user= request.user, ordered=False)
+    if order_qs.exists():
+        order = order_qs[0]
+        if order.products.filter(product__pk=product.pk).exists():
+            cart_product = CartProduct.objects.filter(product=product,user= request.user, ordered=False)[0]
+            cart_product.delete()
+            messages.info(request, 'Delete from cart')
+            return redirect('cart-summary')
+        else:
+            return redirect('cart-summary')
+    else:
+        return redirect('cart-summary')
+
+def cart_summary(request):
+    order = Order.objects.get(user=request.user, ordered=False)
+    context ={
+        'order':order
+    }
+    return render(request,'store/cart-summary.html', context)
